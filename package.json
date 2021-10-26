@@ -1,0 +1,72 @@
+{
+  "name": "abborah-api",
+  "version": "0.0.4",
+  "description": "Api for abborah",
+  "author": "Marcos Soares <marcossaore@gmail.com>",
+  "private": true,
+  "scripts": {
+    "start": "yarn prisma migrate deploy && node dist/main/server.js",
+    "prepare": "husky install",
+    "build": "rimraf dist && tsc -p tsconfig-build.json",
+    "up": "yarn build && docker-compose up -d --build --force-recreate",
+    "up:dev": "yarn build && docker-compose up -d --build --force-recreate db  && docker-compose up -d --build --force-recreate api",
+    "down": "docker-compose down",
+    "debug": "sh scripts/debug.sh && yarn nodemon -L --watch ./dist --inspect=0.0.0.0:9222 --nolazy ./dist/main/server.js",
+    "test": "jest --passWithNoTests --silent --noStackTrace --runInBand --bail --detectOpenHandles --forceExit",
+    "test:verbose": "jest --passWithNoTests --runInBand",
+    "test:unit": "yarn test --watchAll -c jest-unit-config.js",
+    "test:integration": "yarn test --watchAll -c jest-integration-config.js",
+    "test:staged": "yarn test --findRelatedTests",
+    "test:ci": "yarn test --coverage",
+    "test:coveralls": "yarn test:ci && coveralls < coverage/lcov.info",
+    "enable_db_test": "sh enable_db_test.sh",
+    "update-packages": "yarn npm-check-updates"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.13",
+    "@types/faker": "^5.5.9",
+    "@types/jest": "^27.0.2",
+    "@types/jsonwebtoken": "^8.5.5",
+    "@types/mockdate": "^3.0.0",
+    "@types/supertest": "^2.0.11",
+    "@types/validator": "^13.6.5",
+    "@typescript-eslint/eslint-plugin": "^5.2.0",
+    "dotenv-cli": "^4.0.0",
+    "eslint": "^8.1.0",
+    "eslint-config-standard-with-typescript": "^21.0.1",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.1.1",
+    "faker": "^5.5.3",
+    "git-commit-msg-linter": "^3.2.8",
+    "husky": "^7.0.4",
+    "jest": "^27.3.1",
+    "jest-mock-extended": "^2.0.4",
+    "lint-staged": "^11.2.4",
+    "mockdate": "^3.0.5",
+    "npm-check-updates": "^11.8.5",
+    "rimraf": "^3.0.2",
+    "supertest": "^6.1.6",
+    "ts-jest": "^27.0.7",
+    "typescript": "^4.4.4"
+  },
+  "dependencies": {
+    "@prisma/client": "3.3.0",
+    "bcrypt": "^5.0.1",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "global": "^4.4.0",
+    "jsonwebtoken": "^8.5.1",
+    "module-alias": "^2.2.2",
+    "nodemon": "^2.0.14",
+    "prisma": "3.3.0",
+    "swagger-ui-express": "^4.1.6",
+    "validator": "^13.6.0"
+  },
+  "engines": {
+    "node": "16.x"
+  },
+  "_moduleAliases": {
+    "@": "dist"
+  }
+}

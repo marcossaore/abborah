@@ -1,0 +1,9 @@
+
+datasource db {
+  provider = "mysql"
+  url      = env("DB_CONNECTION")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
