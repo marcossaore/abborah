@@ -25,24 +25,28 @@ export class AddProjectController implements Controller {
         this.project = await this.addProject.add({ name, description, startDate: new Date(startDate), endDate: new Date(endDate) })
 
         if (tasks) {
-          for (const task of tasks) {
-            const newTask = await this.addTask.add({
-              projectId: this.project.id,
-              name: task.name,
-              description: task.description ?? null,
-              startDate: new Date(task.startDate),
-              endDate: new Date(task.endDate),
-              finished: task.finished ?? false
-            })
-            this.tasks.push(newTask)
-          }
-          this.project.tasks = this.tasks
+          await this.addTasks(tasks)
         }
 
         return ok(this.project)
       } catch (error) {
         return serverError(error)
       }
+    }
+
+    private async addTasks (tasks): Promise<void> {
+      for (const task of tasks) {
+        const newTask = await this.addTask.add({
+          projectId: this.project.id,
+          name: task.name,
+          description: task.description ?? null,
+          startDate: new Date(task.startDate),
+          endDate: new Date(task.endDate),
+          finished: task.finished ?? false
+        })
+        this.tasks.push(newTask)
+      }
+      this.project.tasks = this.tasks
     }
 }
 
