@@ -2,6 +2,7 @@ import { AddProjectController } from '@/presentation/controllers/project/add-pro
 import { badRequest } from '@/presentation/http-helpers/http-helper'
 import { ValidationSpy } from '../../mock'
 import faker from 'faker'
+import { AddProjectSpy } from '../../mock/mock-task'
 
 const mockRequest = (): any => ({
   name: faker.random.word(),
@@ -13,14 +14,17 @@ const mockRequest = (): any => ({
 type SutTypes = {
   sut: AddProjectController
   validationSpy: ValidationSpy
+  addProjectSpy: AddProjectSpy
 }
 
 const makeSut = (): SutTypes => {
   const validationSpy = new ValidationSpy()
-  const sut = new AddProjectController(validationSpy)
+  const addProjectSpy = new AddProjectSpy()
+  const sut = new AddProjectController(validationSpy, addProjectSpy)
   return {
     sut,
-    validationSpy
+    validationSpy,
+    addProjectSpy
   }
 }
 
@@ -37,5 +41,13 @@ describe('AddProject Controller', () => {
     jest.spyOn(validationSpy, 'validate').mockReturnValueOnce(new Error())
     const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse).toEqual(badRequest(new Error()))
+  })
+
+  test('should call AddTask with correct values', async () => {
+    const { sut, addProjectSpy } = makeSut()
+    const request = mockRequest()
+    await sut.handle(request)
+    const { name, description, startDate, endDate } = request
+    expect(addProjectSpy.project).toEqual({ name, description, startDate, endDate })
   })
 })
