@@ -1,3 +1,4 @@
+import { badRequest } from '@/presentation/http-helpers/http-helper'
 import { Controller, HttpResponse } from '@/presentation/protocols'
 import { Validation } from '@/presentation/protocols/validation'
 
@@ -5,8 +6,10 @@ export class AddProjectController implements Controller {
   constructor (private readonly validation: Validation) {}
 
   async handle (request: AddProjectController.Request): Promise<HttpResponse> {
-    await this.validation.validate(request)
-    return null
+    const error = await this.validation.validate(request)
+    if (error) {
+      return badRequest(error)
+    }
   }
 }
 
