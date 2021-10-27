@@ -1,5 +1,5 @@
 import { AddProjectController } from '@/presentation/controllers/project/add-project-controller'
-import { badRequest, serverError } from '@/presentation/http-helpers/http-helper'
+import { badRequest, serverError, ok } from '@/presentation/http-helpers/http-helper'
 import { ValidationSpy } from '../../mock'
 import faker from 'faker'
 import { AddProjectSpy } from '../../mock/mock-task'
@@ -71,5 +71,12 @@ describe('AddProject Controller', () => {
     })
     const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse).toEqual(serverError(new Error()))
+  })
+
+  test('should return status 200 with task created on success', async () => {
+    const { sut, addProjectSpy } = makeSut()
+    const request = mockRequest()
+    const httpResponse = await sut.handle(request)
+    expect(httpResponse).toEqual(ok(addProjectSpy.projectModel))
   })
 })

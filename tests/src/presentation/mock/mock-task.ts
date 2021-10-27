@@ -3,9 +3,11 @@ import { AddProject, AddProjectParams } from '@/domain/usecases/project/add-proj
 import { mockProjectModel } from '../../domains/mock/mock-project'
 
 export class AddProjectSpy implements AddProject {
-  project: any
+  project: AddProjectParams
+  projectModel: ProjectModel
   async add (project: AddProjectParams): Promise<ProjectModel> {
     this.project = project
-    return Promise.resolve(mockProjectModel())
+    this.projectModel = mockProjectModel()
+    return Promise.resolve(this.projectModel)
   }
 }
