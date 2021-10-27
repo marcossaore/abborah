@@ -1,0 +1,15 @@
+# Add Project
+
+> ## Caso de sucesso
+
+1. ❌  Recebe uma requisição do tipo **POST** na rota **/api/projects**
+2. ❌  Valida se os dados informados são válidos
+3. ❌  Cria um novo projeto
+4. ❌  Se houver tarefas, vincula ao projeto
+5. ❌  Retorna **200**
+
+> ## Exceções
+
+1. ❌  Retorna erro **404** se a API não existir
+2. ❌  Retorna erro **400** se os campos obrigatórios estiverem vazios
+3. ❌  Retorna erro **500** se der erro ao criar projeto
