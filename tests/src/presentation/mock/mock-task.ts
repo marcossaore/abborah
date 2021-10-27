@@ -4,9 +4,10 @@ import { mockTaskModel } from '../../domains/mock'
 export class AddTaskFromProjectSpy implements AddTask {
   tasks: AddTaskParams[] = new Array<AddTaskParams>()
   tasksModel: TaskModel[] = new Array<TaskModel>()
-  async add (task: AddTaskParams): Promise<void> {
+  async add (task: AddTaskParams): Promise<TaskModel> {
     this.tasks.push(task)
     const taskModel = mockTaskModel()
     this.tasksModel.push(taskModel)
+    return Promise.resolve(taskModel)
   }
 }

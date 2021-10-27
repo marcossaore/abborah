@@ -126,4 +126,13 @@ describe('AddProject Controller', () => {
     expect(taskTwoMocked.projectId).toBeTruthy()
     expect(taskTwoMocked.finished).toBe(false)
   })
+
+  test('should return tasks when they are provided when project on success', async () => {
+    const { sut, addProjectSpy, addTaskFromProjectSpy } = makeSut()
+    const request = mockRequestWithTasks()
+    const httpResponse = await sut.handle(request)
+    const expectedResponse: any = addProjectSpy.projectModel
+    expectedResponse.tasks = addTaskFromProjectSpy.tasks
+    expect(httpResponse).toEqual(ok(expectedResponse))
+  })
 })
