@@ -36,11 +36,22 @@ describe('AddProject Controller', () => {
     expect(validationSpy.input).toEqual(request)
   })
 
-  test('should return a bad request if validation fails', async () => {
+  test('should return a bad request if Validation fails', async () => {
     const { sut, validationSpy } = makeSut()
     jest.spyOn(validationSpy, 'validate').mockReturnValueOnce(new Error())
     const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse).toEqual(badRequest(new Error()))
+  })
+
+  test('should return a server error if Validation throws', async () => {
+    const { sut, validationSpy } = makeSut()
+    const error = new Error()
+    error.stack = 'any_error'
+    jest.spyOn(validationSpy, 'validate').mockImplementationOnce(() => {
+      throw error
+    })
+    const httpResponse = await sut.handle(mockRequest())
+    expect(httpResponse).toEqual(serverError(new Error()))
   })
 
   test('should call AddTask with correct values', async () => {
