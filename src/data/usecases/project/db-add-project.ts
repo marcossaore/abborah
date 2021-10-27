@@ -3,7 +3,7 @@ import { AddProject, AddProjectParams, ProjectModel, AddProjectRepository } from
 export class DbAddProject implements AddProject {
   constructor (private readonly addProjectRepository: AddProjectRepository) {}
   public async add (projectParams: AddProjectParams): Promise<ProjectModel> {
-    await this.addProjectRepository.add(projectParams)
-    return Promise.resolve(null)
+    const project = await this.addProjectRepository.add(projectParams)
+    return project
   }
 }
