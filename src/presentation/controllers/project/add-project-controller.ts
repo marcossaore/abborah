@@ -1,5 +1,4 @@
-import { Controller, HttpResponse } from '@/presentation/protocols'
-import { Validation } from '@/presentation/protocols/validation'
+import { Controller, HttpResponse, Validation } from './add-project-protocols'
 import { badRequest, ok, serverError } from '@/presentation/http-helpers/http-helper'
 import { AddProject } from '@/domain/usecases/project/add-project'
 
