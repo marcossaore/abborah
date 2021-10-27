@@ -1,5 +1,5 @@
 import { AddProjectController } from '@/presentation/controllers/project/add-project-controller'
-import { badRequest } from '@/presentation/http-helpers/http-helper'
+import { badRequest, serverError } from '@/presentation/http-helpers/http-helper'
 import { ValidationSpy } from '../../mock'
 import faker from 'faker'
 import { AddProjectSpy } from '../../mock/mock-task'
@@ -49,5 +49,16 @@ describe('AddProject Controller', () => {
     await sut.handle(request)
     const { name, description, startDate, endDate } = request
     expect(addProjectSpy.project).toEqual({ name, description, startDate, endDate })
+  })
+
+  test('should return a server error if AddProjectController throws', async () => {
+    const { sut, addProjectSpy } = makeSut()
+    const error = new Error()
+    error.stack = 'any_error'
+    jest.spyOn(addProjectSpy, 'add').mockImplementationOnce(() => {
+      throw error
+    })
+    const httpResponse = await sut.handle(mockRequest())
+    expect(httpResponse).toEqual(serverError(new Error()))
   })
 })
