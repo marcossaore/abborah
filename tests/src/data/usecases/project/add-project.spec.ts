@@ -1,6 +1,7 @@
 import { DbAddProject } from '@/data/usecases/project/db-add-project'
 import { AddProjectRepositorySpy, mockProject } from '../../mock'
 import MockDate from 'mockdate'
+import { mockThrowError } from '@/tests/src/mock-utils'
 
 type SutTypes = {
   sut: DbAddProject
@@ -35,5 +36,12 @@ describe('DbAddProject UseCase', () => {
     expect(addProjectRepository.projectResult.description).toBe(mock.description)
     expect(addProjectRepository.projectResult.startDate).toEqual(mock.startDate)
     expect(addProjectRepository.projectResult.endDate).toEqual(mock.endDate)
+  })
+
+  it('should throws if AddProjectRepository throws', async () => {
+    const { sut, addProjectRepository } = makeSut()
+    jest.spyOn(addProjectRepository, 'add').mockImplementationOnce(mockThrowError)
+    const promise = sut.add(mockProject())
+    await expect(promise).rejects.toThrow()
   })
 })
