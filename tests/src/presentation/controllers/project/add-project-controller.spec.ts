@@ -1,4 +1,5 @@
 import { AddProjectController } from '@/presentation/controllers/project/add-project-controller'
+import { badRequest } from '@/presentation/http-helpers/http-helper'
 import { ValidationSpy } from '../../mock'
 import faker from 'faker'
 
@@ -29,5 +30,12 @@ describe('AddProject Controller', () => {
     const request = mockRequest()
     await sut.handle(request)
     expect(validationSpy.input).toEqual(request)
+  })
+
+  test('should return a bad request if validation fails', async () => {
+    const { sut, validationSpy } = makeSut()
+    jest.spyOn(validationSpy, 'validate').mockReturnValueOnce(new Error())
+    const httpResponse = await sut.handle(mockRequest())
+    expect(httpResponse).toEqual(badRequest(new Error()))
   })
 })
