@@ -26,28 +26,28 @@ describe('DbAddProject UseCase', () => {
     MockDate.reset()
   })
 
-  it('should call AddProjectRepository with correct values', async () => {
+  test('should call AddProjectRepository with correct values', async () => {
     const { sut, addProjectRepository } = makeSut()
     const mock = mockProject()
     await sut.add(mock)
     expect(addProjectRepository.projectParams).toEqual(mock)
   })
 
-  it('should throws if AddProjectRepository throws', async () => {
+  test('should throws if AddProjectRepository throws', async () => {
     const { sut, addProjectRepository } = makeSut()
     jest.spyOn(addProjectRepository, 'add').mockImplementationOnce(mockThrowError)
     const promise = sut.add(mockProject())
     await expect(promise).rejects.toThrow()
   })
 
-  it('should throws if AddProjectRepository throws', async () => {
+  test('should throws if AddProjectRepository throws', async () => {
     const { sut, addProjectRepository } = makeSut()
     jest.spyOn(addProjectRepository, 'add').mockImplementationOnce(mockThrowError)
     const promise = sut.add(mockProject())
     await expect(promise).rejects.toThrow()
   })
 
-  it('should returns a Project on success', async () => {
+  test('should returns a Project on success', async () => {
     const { sut } = makeSut()
     const mock = mockProject()
     const projectModel = await sut.add(mock)
