@@ -12,7 +12,7 @@
     "up:dev": "yarn build && docker-compose up -d --build --force-recreate db  && docker-compose up -d --build --force-recreate api",
     "down": "docker-compose down",
     "debug": "sh scripts/debug.sh && yarn nodemon -L --watch ./dist --inspect=0.0.0.0:9222 --nolazy ./dist/main/server.js",
-    "test": "jest --passWithNoTests --silent --noStackTrace --runInBand --bail --detectOpenHandles --forceExit",
+    "test": "sh ./scripts/enable_db_test.sh && jest --passWithNoTests --silent --noStackTrace --runInBand --bail --detectOpenHandles --forceExit",
     "test:verbose": "jest --passWithNoTests --runInBand",
     "test:unit": "yarn test --watchAll -c jest-unit-config.js",
     "test:integration": "yarn test --watchAll -c jest-integration-config.js",

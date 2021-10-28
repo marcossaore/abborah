@@ -7,3 +7,12 @@ datasource db {
 generator client {
   provider = "prisma-client-js"
 }
+
+model Project {
+  id                       Int     @id @default(autoincrement())
+  name                     String
+  description              String?
+  startDate                DateTime
+  endDate                  DateTime
+  finsihed                 Boolean?
+}
