@@ -31,11 +31,6 @@ describe('DbAddProject UseCase', () => {
     const mock = mockProject()
     await sut.add(mock)
     expect(addProjectRepository.projectParams).toEqual(mock)
-    expect(addProjectRepository.projectResult.id).toBeTruthy()
-    expect(addProjectRepository.projectResult.name).toBe(mock.name)
-    expect(addProjectRepository.projectResult.description).toBe(mock.description)
-    expect(addProjectRepository.projectResult.startDate).toEqual(mock.startDate)
-    expect(addProjectRepository.projectResult.endDate).toEqual(mock.endDate)
   })
 
   it('should throws if AddProjectRepository throws', async () => {

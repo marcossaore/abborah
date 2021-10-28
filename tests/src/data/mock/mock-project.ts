@@ -19,10 +19,8 @@ export const mockProjectModel = (): ProjectModel => ({
 
 export class AddProjectRepositorySpy implements AddProjectRepository {
   projectParams: AddProjectParams
-  projectResult: ProjectModel
   async add (project: AddProjectRepository.Params): Promise<AddProjectRepository.Result> {
     this.projectParams = project
-    this.projectResult = mockProjectModel()
-    return Promise.resolve(this.projectResult)
+    return Promise.resolve(mockProjectModel())
   }
 }
