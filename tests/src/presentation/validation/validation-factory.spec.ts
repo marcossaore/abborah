@@ -28,9 +28,9 @@ describe('Validation Factory', () => {
     expect(odinSpy).toHaveBeenCalledWith(sut.modelToTest)
   })
 
-  test('should return an Odin error on validate if given param it was not passed', () => {
+  test('should return odin validate method', () => {
     const sut = makeSut()
     const validation = sut.make()
-    expect(validation.validate({})).toBeInstanceOf(Error)
+    expect(validation.validate).toBeInstanceOf(Function)
   })
 })
