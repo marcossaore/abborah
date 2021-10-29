@@ -21,10 +21,16 @@ const makeSut = (): ValidationFactoryImplSpy => {
 }
 
 describe('Validation Factory', () => {
-  test('should call Odin Validation with correct value', () => {
+  test('should call Odin build Validation with correct value', () => {
     const sut = makeSut()
     const odinSpy = jest.spyOn(Odin, 'build')
     sut.make()
     expect(odinSpy).toHaveBeenCalledWith(sut.modelToTest)
+  })
+
+  test('should return an Odin error on validate if given param it was not passed', () => {
+    const sut = makeSut()
+    const validation = sut.make()
+    expect(validation.validate({})).toBeInstanceOf(Error)
   })
 })
