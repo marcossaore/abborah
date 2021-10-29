@@ -21,7 +21,7 @@ services:
     volumes:
       - data:/var/lib/mysql
   api:
-    image: node:14.15
+    image: node:16.8
     working_dir: /usr/src/abborah
     restart: always
     command: "yarn debug"
