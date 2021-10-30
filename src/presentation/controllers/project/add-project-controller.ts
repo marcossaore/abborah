@@ -1,9 +1,7 @@
 import { Controller, HttpResponse, Validation } from './add-project-protocols'
 import { badRequest, ok, serverError } from '@/presentation/http-helpers/http-helper'
 import { AddProject } from '@/domain/usecases/project/add-project'
-import { InvalidStartProjectDateError } from '@/presentation/errors'
-import { ProjectInvalidDateRangeError } from '@/presentation/errors/project-invalid-date-range-error'
-
+import { InvalidStartProjectDateError, ProjectInvalidDateRangeError } from '@/presentation/errors'
 export class AddProjectController implements Controller {
   constructor (
     private readonly validation: Validation,
