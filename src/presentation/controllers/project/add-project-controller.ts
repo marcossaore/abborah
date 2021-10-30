@@ -1,7 +1,7 @@
-import { Controller, HttpResponse, Validation } from './add-project-protocols'
+import { Controller, HttpResponse, Validation, InvalidStartProjectDateError, ProjectInvalidDateRangeError } from './add-project-protocols'
 import { badRequest, ok, serverError } from '@/presentation/http-helpers/http-helper'
 import { AddProject } from '@/domain/usecases/project/add-project'
-import { InvalidStartProjectDateError, ProjectInvalidDateRangeError } from '@/presentation/errors'
+
 export class AddProjectController implements Controller {
   constructor (
     private readonly validation: Validation,
@@ -24,7 +24,6 @@ export class AddProjectController implements Controller {
 
       const differenceInTime = today.getTime() - dateStart.getTime()
 
-      // To calculate the no. of days between two dates
       const differenceInDays = differenceInTime / (1000 * 3600 * 24)
 
       if (differenceInDays >= 30) {
