@@ -1,19 +1,6 @@
 import { AddProjectController } from '@/presentation/controllers/project/add-project-controller'
 import { badRequest, serverError, ok } from '@/presentation/http-helpers/http-helper'
-import { ValidationSpy, AddProjectSpy, ValidationRuleSpy } from '../../mock'
-import faker from 'faker'
-
-const mockRequest = (): any => {
-  const today = new Date()
-  const cloneToday = new Date(today.getTime())
-  const todayPlus5Hours = new Date(cloneToday.setHours(cloneToday.getHours() + 5))
-  return {
-    name: faker.random.word(),
-    startDate: today,
-    description: faker.random.word(),
-    endDate: todayPlus5Hours
-  }
-}
+import { ValidationSpy, AddProjectSpy, ValidationRuleSpy, mockRequest } from '../../mock'
 
 type SutTypes = {
   sut: AddProjectController
@@ -86,12 +73,12 @@ describe('AddProject Controller', () => {
     expect(httpResponse).toEqual(serverError(new Error()))
   })
 
-  test('should call AddTask with correct values', async () => {
+  test('should call AddProject with correct values', async () => {
     const { sut, addProjectSpy } = makeSut()
     const request = mockRequest()
     await sut.handle(request)
     const { name, description, startDate, endDate } = request
-    expect(addProjectSpy.project).toEqual({ name, description, startDate, endDate })
+    expect(addProjectSpy.project).toEqual({ name, description, startDate: new Date(startDate), endDate: new Date(endDate) })
   })
 
   test('should return a server error if AddProjectController throws', async () => {

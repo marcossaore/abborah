@@ -13,7 +13,7 @@ export const AddProjectValidationModel: ValidationModel = {
     maxLength: 255
   },
   startDate: {
-    required: true,
+    required: false,
     type: 'date'
   },
   endDate: {

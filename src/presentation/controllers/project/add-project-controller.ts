@@ -13,14 +13,13 @@ export class AddProjectController implements Controller {
   async handle (request: AddProjectController.Request): Promise<HttpResponse> {
     try {
       const error = await this.validation.validate(request) || this.validationRule.validate(request)
-
       if (error) {
         return badRequest(error)
       }
 
-      const { name, description, endDate, startDate } = request
+      const { name, description, startDate, endDate } = request
 
-      const project = await this.addProject.add({ name, description, startDate: new Date(startDate), endDate: new Date(endDate) })
+      const project = await this.addProject.add({ name, description, startDate: startDate ? new Date(startDate) : new Date(), endDate: new Date(endDate) })
 
       return ok(project)
     } catch (error) {
