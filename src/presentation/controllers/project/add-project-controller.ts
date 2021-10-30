@@ -1,8 +1,5 @@
-import { Controller, HttpResponse, Validation } from './add-project-protocols'
+import { Controller, HttpResponse, Validation, AddProject, ValidationRule } from './add-project-protocols'
 import { badRequest, ok, serverError } from '@/presentation/http-helpers/http-helper'
-import { AddProject } from '@/domain/usecases/project/add-project'
-import { ValidationRule } from '@/domain/usecases/utils/validation-rule'
-
 export class AddProjectController implements Controller {
   constructor (
     private readonly validation: Validation,
