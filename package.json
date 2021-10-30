@@ -8,6 +8,7 @@
     "start": "yarn prisma migrate deploy && node dist/main/server.js",
     "prepare": "husky install",
     "build": "rimraf dist && tsc -p tsconfig-build.json",
+    "build:watch": "rimraf dist && tsc -p tsconfig-build.json -w",
     "up": "yarn build && docker-compose up -d --build --force-recreate",
     "up:dev": "yarn build && docker-compose up -d --build --force-recreate db  && docker-compose up -d --build --force-recreate api",
     "down": "docker-compose down",
