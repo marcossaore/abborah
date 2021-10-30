@@ -4,4 +4,5 @@ export type ProjectModel = {
   description?: string
   startDate: Date
   endDate: Date
+  finished?: boolean
 }

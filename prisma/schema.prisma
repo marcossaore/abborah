@@ -14,5 +14,5 @@ model Project {
   description              String?
   startDate                DateTime
   endDate                  DateTime
-  finsihed                 Boolean?
+  finished                 Boolean? @default(false)
 }

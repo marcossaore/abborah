@@ -14,9 +14,9 @@ export class AddProjectController implements Controller {
         return badRequest(error)
       }
 
-      const { name, description, startDate, endDate } = request
+      const { name, description, startDate, endDate, finished } = request
 
-      const project = await this.addProject.add({ name, description, startDate: startDate ? new Date(startDate) : new Date(), endDate: new Date(endDate) })
+      const project = await this.addProject.add({ name, description, finished, startDate: startDate ? new Date(startDate) : new Date(), endDate: new Date(endDate) })
 
       return ok(project)
     } catch (error) {
@@ -31,5 +31,6 @@ export namespace AddProjectController {
     description?: string
     startDate: string
     endDate: string
+    finished?: boolean
   }
 }
