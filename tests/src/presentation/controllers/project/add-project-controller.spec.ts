@@ -2,8 +2,6 @@ import { AddProjectController } from '@/presentation/controllers/project/add-pro
 import { badRequest, serverError, ok } from '@/presentation/http-helpers/http-helper'
 import { ValidationSpy, AddProjectSpy } from '../../mock'
 import faker from 'faker'
-import { InvalidStartProjectDateError } from '@/presentation/errors'
-import { ProjectInvalidDateRangeError } from '@/presentation/errors/project-invalid-date-range-error'
 
 const mockRequest = (): any => {
   const today = new Date()
@@ -77,31 +75,6 @@ describe('AddProject Controller', () => {
     })
     const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse).toEqual(serverError(new Error()))
-  })
-
-  test('should return a bad request if startDate is older than 30 days', async () => {
-    const today = new Date()
-    const todayClone = new Date(today)
-    const fiftyDaysBefore = (new Date(todayClone.setMonth(today.getMonth() - 3))).toString()
-    const request = mockRequest()
-    request.startDate = fiftyDaysBefore
-    request.endDate = today.getDate().toString()
-    const { sut } = makeSut()
-    const httpResponse = await sut.handle(request)
-    expect(httpResponse).toEqual(badRequest(new InvalidStartProjectDateError()))
-  })
-
-  test('should return a badrequest if endDate is less than startDate', async () => {
-    const today = new Date()
-    const todayClone = new Date(today)
-    const endDateWrong = (new Date(todayClone.setDate(today.getDate() - 4))).toString()
-    const startDate = (new Date(todayClone.setDate(today.getDate() - 4))).toString()
-    const request = mockRequest()
-    request.startDate = startDate
-    request.endDate = endDateWrong
-    const { sut } = makeSut()
-    const httpResponse = await sut.handle(request)
-    expect(httpResponse).toEqual(badRequest(new ProjectInvalidDateRangeError()))
   })
 
   test('should return status 200 with task created on success', async () => {

@@ -1,4 +1,4 @@
-import { Controller, HttpResponse, Validation, InvalidStartProjectDateError, ProjectInvalidDateRangeError } from './add-project-protocols'
+import { Controller, HttpResponse, Validation } from './add-project-protocols'
 import { badRequest, ok, serverError } from '@/presentation/http-helpers/http-helper'
 import { AddProject } from '@/domain/usecases/project/add-project'
 
@@ -15,26 +15,9 @@ export class AddProjectController implements Controller {
         return badRequest(error)
       }
 
-      const today = new Date()
       const { name, description, endDate, startDate } = request
 
-      const dateStart = new Date(startDate)
-
-      const dateEnd = new Date(endDate)
-
-      const differenceInTime = today.getTime() - dateStart.getTime()
-
-      const differenceInDays = differenceInTime / (1000 * 3600 * 24)
-
-      if (differenceInDays >= 30) {
-        return badRequest(new InvalidStartProjectDateError())
-      }
-
-      if ((dateEnd.getTime() - dateStart.getTime()) <= 0) {
-        return badRequest(new ProjectInvalidDateRangeError())
-      }
-
-      const project = await this.addProject.add({ name, description, startDate: dateStart, endDate: new Date(endDate) })
+      const project = await this.addProject.add({ name, description, startDate: new Date(startDate), endDate: new Date(endDate) })
 
       return ok(project)
     } catch (error) {
