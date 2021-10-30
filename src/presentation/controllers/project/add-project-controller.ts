@@ -1,6 +1,7 @@
 import { Controller, HttpResponse, Validation } from './add-project-protocols'
 import { badRequest, ok, serverError } from '@/presentation/http-helpers/http-helper'
 import { AddProject } from '@/domain/usecases/project/add-project'
+import { InvalidStartProjectDateError } from '@/presentation/errors'
 
 export class AddProjectController implements Controller {
   constructor (
@@ -15,9 +16,21 @@ export class AddProjectController implements Controller {
         return badRequest(error)
       }
 
+      const today = new Date()
       const { name, description, endDate, startDate } = request
 
-      const project = await this.addProject.add({ name, description, startDate: new Date(startDate), endDate: new Date(endDate) })
+      const dateStart = new Date(startDate)
+
+      const differenceInTime = today.getTime() - dateStart.getTime()
+
+      // To calculate the no. of days between two dates
+      const differenceInDays = differenceInTime / (1000 * 3600 * 24)
+
+      if (differenceInDays >= 30) {
+        return badRequest(new InvalidStartProjectDateError())
+      }
+
+      const project = await this.addProject.add({ name, description, startDate: dateStart, endDate: new Date(endDate) })
 
       return ok(project)
     } catch (error) {
