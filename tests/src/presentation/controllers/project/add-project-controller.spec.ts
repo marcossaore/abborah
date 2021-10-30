@@ -2,12 +2,13 @@ import { AddProjectController } from '@/presentation/controllers/project/add-pro
 import { badRequest, serverError, ok } from '@/presentation/http-helpers/http-helper'
 import { ValidationSpy, AddProjectSpy } from '../../mock'
 import faker from 'faker'
+import { InvalidStartProjectDateError } from '@/presentation/errors'
 
 const mockRequest = (): any => ({
   name: faker.random.word(),
-  startDate: faker.date.past(),
+  startDate: new Date(),
   description: faker.random.word(),
-  endDate: faker.date.future()
+  endDate: new Date()
 })
 
 type SutTypes = {
@@ -70,6 +71,18 @@ describe('AddProject Controller', () => {
     })
     const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse).toEqual(serverError(new Error()))
+  })
+
+  test('should return a bad request if startDate is older than 30 days', async () => {
+    const today = new Date()
+    const todayClone = new Date(today)
+    const fiftyDaysBefore = (new Date(todayClone.setMonth(today.getMonth() - 3))).toString()
+    const request = mockRequest()
+    request.startDate = fiftyDaysBefore
+    request.endDate = today.getDate().toString()
+    const { sut } = makeSut()
+    const httpResponse = await sut.handle(request)
+    expect(httpResponse).toEqual(badRequest(new InvalidStartProjectDateError()))
   })
 
   test('should return status 200 with task created on success', async () => {
