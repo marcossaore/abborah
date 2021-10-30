@@ -1,8 +1,8 @@
 import { ValidationRule } from '@/domain/usecases/utils/validation-rule'
-import { ProjectDateRule } from '@/infra/validators/project-date-rule'
+import { ProjectDateValidationRule } from '@/infra/validators/project-date-validation-rule'
 import { InvalidStartProjectDateError, ProjectInvalidDateRangeError } from '@/presentation/errors'
 
-const makeSut = (): ValidationRule => new ProjectDateRule()
+const makeSut = (): ValidationRule => new ProjectDateValidationRule()
 
 describe('ProjectDateRule', () => {
   test('should return an error if startDate is older than 30 days', async () => {

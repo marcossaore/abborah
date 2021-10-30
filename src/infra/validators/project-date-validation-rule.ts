@@ -1,7 +1,7 @@
 import { ValidationRule } from '@/domain/usecases/utils/validation-rule'
 import { InvalidStartProjectDateError, ProjectInvalidDateRangeError } from '@/presentation/errors'
 
-export class ProjectDateRule implements ValidationRule {
+export class ProjectDateValidationRule implements ValidationRule {
   validate (input: ProjectDateRule.Params): Error {
     const today = new Date()
 
