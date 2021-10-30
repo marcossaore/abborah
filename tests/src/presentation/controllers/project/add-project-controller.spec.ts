@@ -1,6 +1,6 @@
 import { AddProjectController } from '@/presentation/controllers/project/add-project-controller'
 import { badRequest, serverError, ok } from '@/presentation/http-helpers/http-helper'
-import { ValidationSpy, AddProjectSpy } from '../../mock'
+import { ValidationSpy, AddProjectSpy, ValidationRuleSpy } from '../../mock'
 import faker from 'faker'
 
 const mockRequest = (): any => {
@@ -18,16 +18,19 @@ const mockRequest = (): any => {
 type SutTypes = {
   sut: AddProjectController
   validationSpy: ValidationSpy
+  validationRuleSpy: ValidationRuleSpy
   addProjectSpy: AddProjectSpy
 }
 
 const makeSut = (): SutTypes => {
   const validationSpy = new ValidationSpy()
+  const validationRuleSpy = new ValidationRuleSpy()
   const addProjectSpy = new AddProjectSpy()
-  const sut = new AddProjectController(validationSpy, addProjectSpy)
+  const sut = new AddProjectController(validationSpy, validationRuleSpy, addProjectSpy)
   return {
     sut,
     validationSpy,
+    validationRuleSpy,
     addProjectSpy
   }
 }
@@ -56,6 +59,13 @@ describe('AddProject Controller', () => {
     })
     const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse).toEqual(serverError(new Error()))
+  })
+
+  test('should call ValidationRule with correct values', async () => {
+    const { sut, validationRuleSpy } = makeSut()
+    const request = mockRequest()
+    await sut.handle(request)
+    expect(validationRuleSpy.input).toEqual(request)
   })
 
   test('should call AddTask with correct values', async () => {
