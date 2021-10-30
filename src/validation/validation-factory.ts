@@ -1,5 +1,5 @@
 import { Validation } from '@/presentation/protocols/validation'
-import { ValidationModel } from '@/validation/validators/models/validation-model-protocol'
+import { ValidationModel } from '@/validation/validation-model-protocol'
 import { Odin } from 'odin-validator'
 
 export abstract class ValidationFactory {

@@ -1,5 +1,5 @@
 import { ValidationFactory } from '@/validation/validation-factory'
-import { ValidationModel } from '@/validation/validators/models/validation-model-protocol'
+import { ValidationModel } from '@/validation/validation-model-protocol'
 import { Odin } from 'odin-validator'
 
 class ValidationFactoryImplSpy extends ValidationFactory {

@@ -14,10 +14,10 @@ export const AddProjectValidationModel: ValidationModel = {
   },
   startDate: {
     required: true,
-    type: 'string'
+    type: 'date'
   },
   endDate: {
     required: true,
-    type: 'string'
+    type: 'date'
   }
 }
