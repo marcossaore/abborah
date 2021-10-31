@@ -5,7 +5,7 @@
   "author": "Marcos Soares <marcossaore@gmail.com>",
   "private": true,
   "scripts": {
-    "start": "node dist/main/server.js",
+    "start": "yarn build && yarn prisma migrate deploy && node dist/main/server.js",
     "prepare": "husky install",
     "build": "rimraf dist && tsc -p tsconfig-build.json",
     "build:watch": "rimraf dist && tsc -p tsconfig-build.json -w",
