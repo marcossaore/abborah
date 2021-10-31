@@ -11,7 +11,8 @@ export const mockRequest = (): any => {
     name: faker.random.word(),
     startDate: today.toString(),
     description: faker.random.word(),
-    endDate: todayPlus5Hours.toString()
+    endDate: todayPlus5Hours.toString(),
+    finished: false
   }
 }
 

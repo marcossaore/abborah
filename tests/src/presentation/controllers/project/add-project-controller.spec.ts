@@ -77,8 +77,8 @@ describe('AddProject Controller', () => {
     const { sut, addProjectSpy } = makeSut()
     const request = mockRequest()
     await sut.handle(request)
-    const { name, description, startDate, endDate } = request
-    expect(addProjectSpy.project).toEqual({ name, description, startDate: new Date(startDate), endDate: new Date(endDate) })
+    const { name, description, startDate, endDate, finished } = request
+    expect(addProjectSpy.project).toEqual({ name, description, finished, startDate: new Date(startDate), endDate: new Date(endDate) })
   })
 
   test('should return a server error if AddProjectController throws', async () => {
