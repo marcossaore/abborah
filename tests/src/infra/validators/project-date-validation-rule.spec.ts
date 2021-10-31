@@ -9,7 +9,7 @@ describe('ProjectDateRule', () => {
     const sut = makeSut()
     const today = new Date()
     const todayClone = new Date(today)
-    const fiftyDaysBefore = (new Date(todayClone.setMonth(today.getMonth() - 3))).toString()
+    const fiftyDaysBefore = (new Date(todayClone.setMonth(today.getMonth() - 1))).toString()
     const request = {
       startDate: fiftyDaysBefore,
       endDate: today.toString()

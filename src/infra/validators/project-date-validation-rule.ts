@@ -8,11 +8,11 @@ export class ProjectDateValidationRule implements ValidationRule {
     const startDate = input.startDate ? new Date(input.startDate) : new Date(today)
     const endDate = new Date(input.endDate)
 
-    const differenceBetweenTodayAndStartdateInTime = today.getTime() - startDate.getTime()
+    const differenceBetweenEndDateAndStartDateInTime = endDate.getTime() - startDate.getTime()
 
-    const differenceBetweenTodayAndStartdateInDays = differenceBetweenTodayAndStartdateInTime / (1000 * 3600 * 24)
+    const differenceBetweenEndDateAndStartdateInDays = differenceBetweenEndDateAndStartDateInTime / (1000 * 3600 * 24)
 
-    if (differenceBetweenTodayAndStartdateInDays >= 30) {
+    if (differenceBetweenEndDateAndStartdateInDays >= 30) {
       return new InvalidStartProjectDateError()
     }
 
