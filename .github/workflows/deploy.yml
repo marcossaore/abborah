@@ -27,8 +27,11 @@ jobs:
       - name: Up Db Integration container
         run: docker-compose up -d db_integration
 
-      - name: Generate and Deploy Prisma 
+      - name: Generate Prisma configuration
         run: yarn prisma generate && yarn prisma migrate deploy
+
+      - name: Deploy Prisma
+        run: yarn prisma migrate dev
 
       - name: Running test
         run: yarn test:coveralls
