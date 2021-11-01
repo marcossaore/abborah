@@ -1,6 +1,6 @@
-import setupMiddlewares from './middlewares'
-import setupRoutes from './routes'
-import setupSwagger from './config-swagger'
+import setupMiddlewares from '@/main/config/middlewares'
+import setupRoutes from '@/main/config/routes'
+import setupSwagger from '@/main/config/config-swagger'
 import express from 'express'
 
 const app = express()

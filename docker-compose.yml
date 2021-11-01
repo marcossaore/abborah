@@ -24,7 +24,7 @@ services:
     image: node:16.8
     working_dir: /usr/src/abborah
     restart: always
-    command: "yarn debug"
+    command: bash -c "yarn install --prod && yarn debug"
     environment:
       - DB_CONNECTION=mysql://root:abb0r0h@db:3306/abborah_local
     volumes:

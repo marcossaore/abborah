@@ -3,7 +3,7 @@ import components from './components'
 import schemas from './schemas'
 
 export default {
-  openapi: '3.0',
+  openapi: '3.0.2',
   info: {
     title: 'Api Abborah',
     description: 'Primeira versão de Documentacão',
