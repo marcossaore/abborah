@@ -17,7 +17,7 @@ export default {
   ],
   tags: [
     {
-      name: 'AddProject',
+      name: 'Projects',
       description: 'API de cadastro de projetos'
     }
   ],
