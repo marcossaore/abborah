@@ -8,9 +8,7 @@ services:
       MYSQL_ROOT_PASSWORD: abb0r0h
       MYSQL_DATABASE: abborah_test
     ports:
-      - 3307:3306
-    expose:
-      - 3307
+      - 3306:3306
     networks:
       - test
   api:
@@ -19,7 +17,7 @@ services:
       context: .
       dockerfile: Dockerfile.test
     environment:
-      - DB_CONNECTION=mysql://root:abb0r0h@db_integration:3307/abborah_test
+      - DB_CONNECTION=mysql://root:abb0r0h@db_integration:3306/abborah_test
     volumes:
       - .:/app/
       - ./package.json:/app/package.json
