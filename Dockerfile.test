@@ -1,0 +1,13 @@
+FROM node:16-alpine
+
+RUN apk update \ 
+  && apk add bash \
+  && rm -rf /var/cache/apk/*
+
+WORKDIR /app
+
+COPY . /app
+
+RUN yarn install
+
+RUN yarn prisma generate

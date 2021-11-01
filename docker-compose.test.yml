@@ -1,0 +1,37 @@
+version: '3.9'
+services:
+  db_integration:
+    image: mysql:8.0
+    restart: always
+    command: mysqld --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    environment:
+      MYSQL_ROOT_PASSWORD: abb0r0h
+      MYSQL_DATABASE: abborah_test
+    ports:
+      - 3307:3306
+    expose:
+      - 3307
+    networks:
+      - test
+  api:
+    working_dir: /app
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    environment:
+      - DB_CONNECTION=mysql://root:abb0r0h@db_integration:3306/abborah_test
+    volumes:
+      - .:/app/
+      - ./package.json:/app/package.json
+      - ./yarn.lock:/app/yarn.lock
+    networks:
+      - test
+    ports:
+      - "5555:5555"
+    depends_on:
+      - db_integration
+
+volumes:
+  data:
+networks:
+  test:
