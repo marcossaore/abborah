@@ -18,7 +18,10 @@ jobs:
         with:
           node-version: 16.x
 
-      - name: running test
+      - name: Configure .env for Prisma
+        run: echo DB_CONNECTION="mysql://root:abb0r0h@127.0.0.1:3307/abborah_test" > prisma/.env
+
+      - name: Running test
         run: yarn && yarn test:coveralls
 
       - name: running build
