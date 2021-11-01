@@ -18,9 +18,15 @@ jobs:
         with:
           node-version: 16.x
 
-      - name: Configure .env for Prisma
-        run: echo DB_CONNECTION="mysql://root:abb0r0h@localhost:3307/abborah_test" > prisma/.env
+      - name: Show Hostname Dependencies
+        run: hostname -I
 
+      - name: Configure .env for Prisma
+        run: echo DB_CONNECTION="mysql://root:abb0r0h@$(hostname -I):3307/abborah_test" > prisma/.env
+
+      - name: Show .env for Prisma
+        run: cat prisma/.env
+        
       - name: Install Dependencies
         run: yarn
 
