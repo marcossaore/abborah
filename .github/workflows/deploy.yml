@@ -7,17 +7,12 @@ on:
     branches: [main]
 
 jobs:
-
-  deploy:
-      name: Deploy
-      runs-on: ubuntu-latest
-
-      steps: 
-        - name: Checkout
-          uses: actions/checkout@v1
-
-        - name: Add remote origin
-          run: git remote add heroku https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
-
-        - name: Deploy backend to heroku
-          run: git push heroku main
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: {{ secrets.HEROKU_APP_NAME }}
+          heroku_email: {{ secrets.HEROKU_EMAIL }}
