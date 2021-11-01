@@ -23,7 +23,7 @@ describe('ProjectDateRule', () => {
     const today = new Date()
     const todayClone = new Date(today)
     const endDateWrong = (new Date(todayClone.setDate(today.getDate() - 4))).toString()
-    const startDate = (new Date(todayClone.setDate(today.getDate() - 4))).toString()
+    const startDate = new Date(today)
     const request = {
       startDate: startDate,
       endDate: endDateWrong
