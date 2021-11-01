@@ -18,29 +18,11 @@ jobs:
         with:
           node-version: 16.x
 
-      - name: Show Hostname Dependencies
-        run: hostname -I
-
-      - name: Configure .env for Prisma
-        run: echo DB_CONNECTION="mysql://root:abb0r0h@$(hostname -I | awk '{print $1}'):3307/abborah_test" > prisma/.env
-
-      - name: Show .env for Prisma
-        run: cat prisma/.env
-        
       - name: Install Dependencies
         run: yarn
 
-      - name: Up Db Integration container
-        run: docker-compose up -d db_integration
-
-      - name: Generate Prisma configuration
-        run: yarn prisma generate && yarn prisma migrate deploy
-
-      - name: Deploy Prisma
-        run: yarn prisma migrate dev
-
-      - name: Running test
-        run: yarn test:coveralls
+      - name: Running tests
+        run: yarn test:on-github-actions
 
       - name: running build
         uses: akhileshns/heroku-deploy@v3.12.12
