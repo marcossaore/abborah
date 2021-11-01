@@ -28,6 +28,8 @@ services:
       - "5555:5555"
     depends_on:
       - db_integration
+    links:
+      - db_integration
 
 volumes:
   data:
