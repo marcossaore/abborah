@@ -21,8 +21,17 @@ jobs:
       - name: Configure .env for Prisma
         run: echo DB_CONNECTION="mysql://root:abb0r0h@127.0.0.1:3307/abborah_test" > prisma/.env
 
+      - name: Install Dependencies
+        run: yarn
+
+      - name: Up Db Integration container
+        run: docker-compose up -d db_integration
+
+      - name: Generate and Deploy Prisma 
+        run: yarn prisma generate && yarn prisma migrate dev
+
       - name: Running test
-        run: yarn && yarn test:coveralls
+        run: yarn test:coveralls
 
       - name: running build
         uses: akhileshns/heroku-deploy@v3.12.12
