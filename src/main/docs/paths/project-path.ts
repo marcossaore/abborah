@@ -1,6 +1,6 @@
 export const projectPath = {
   post: {
-    tags: ['Project'],
+    tags: ['Projects'],
     summary: 'Rota para criar projetos',
     description: 'Essa rota pode ser executada por **qualquer usuário**',
     requestBody: {
