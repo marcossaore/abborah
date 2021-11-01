@@ -19,7 +19,7 @@ services:
       context: .
       dockerfile: Dockerfile.test
     environment:
-      - DB_CONNECTION=mysql://root:abb0r0h@db_integration:3306/abborah_test
+      - DB_CONNECTION=mysql://root:abb0r0h@db_integration:3307/abborah_test
     volumes:
       - .:/app/
       - ./package.json:/app/package.json
