@@ -22,7 +22,7 @@ jobs:
         run: hostname -I
 
       - name: Configure .env for Prisma
-        run: echo DB_CONNECTION="mysql://root:abb0r0h@$(hostname -I):3307/abborah_test" > prisma/.env
+        run: echo DB_CONNECTION="mysql://root:abb0r0h@$(hostname -I | awk '{print $1}'):3307/abborah_test" > prisma/.env
 
       - name: Show .env for Prisma
         run: cat prisma/.env
