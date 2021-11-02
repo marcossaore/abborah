@@ -21,11 +21,8 @@ jobs:
       - name: Install Dependencies
         run: yarn
 
-      - name: Clear Build cachle
-        run: docker-compose -f docker-compose.test.yml build --no-cache
-
-      - name: Running tests
-        run: yarn test:on-github-actions
+      # - name: Running tests
+      #   run: yarn test:on-github-actions
 
       - name: running build
         uses: akhileshns/heroku-deploy@v3.12.12

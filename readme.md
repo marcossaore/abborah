@@ -7,7 +7,7 @@
 Essa API auxilia na criação e manutenção de projetos e tarefas vinculadas, é possível criar um projeto e ficar de olho 👀  
 nos prazos estabelecidos e ficsalizar se será entregue em tempo hábil.
 
-O nome é Abborah(Aborá) porque pensei em uma abóbora na hora das definições de escopo. 😅
+O nome é Abborah(Ábora) porque pensei em uma abóbora na hora das definições de escopo. 😅
 
 
 ## [**Link para a documentação da API**](https://abborah.herokuapp.com/api-docs)
@@ -20,6 +20,10 @@ O nome é Abborah(Aborá) porque pensei em uma abóbora na hora das definições
 
 1. [Criar Projeto](./requirements/add-project.readme)
 
+
+### Diagrama 
+1. [project](https://drive.google.com/file/d/1-ZhUhbUPQYWUgkLh58_fLP3w326Bt1Wx/view?usp=sharing)
+2. [Task](https://drive.google.com/file/d/1i7xxAPHZcGSM9IcIuYTsUquWh9zXcbo7/view?usp=sharing)
 
 > ## Stack de desenvolvimento
 
