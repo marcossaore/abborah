@@ -22,7 +22,7 @@ jobs:
         run: yarn
 
       - name: Running tests
-        run: yarn test:on-container api yarn test:ci
+        run: yarn test:on-container yarn test:ci
 
       - name: running build
         uses: akhileshns/heroku-deploy@v3.12.12
