@@ -24,6 +24,11 @@ jobs:
       - name: Running tests
         run: yarn test:on-container yarn test:ci
 
+      - name: Generate Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: running build
         uses: akhileshns/heroku-deploy@v3.12.12
         with:
