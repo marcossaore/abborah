@@ -11,3 +11,5 @@ COPY . /app
 RUN yarn install
 
 RUN yarn prisma generate
+
+ENTRYPOINT [ "yarn", "init_loop_test_container" ]

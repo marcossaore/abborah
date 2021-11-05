@@ -17,21 +17,17 @@ services:
       context: .
       dockerfile: Dockerfile.test
     environment:
-      - DB_CONNECTION=mysql://root:abb0r0h@db_integration:3306/abborah_test
+      DB_CONNECTION: mysql://root:abb0r0h@db_integration:3306/abborah_test?schema=public
     volumes:
       - .:/app/
       - ./package.json:/app/package.json
       - ./yarn.lock:/app/yarn.lock
-    networks:
-      - test
     ports:
       - "5555:5555"
     depends_on:
       - db_integration
-    links:
-      - db_integration
+    networks:
+      - test
 
-volumes:
-  data:
 networks:
   test:
