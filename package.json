@@ -22,7 +22,7 @@
     "test:staged": "yarn test --findRelatedTests",
     "test:ci": "yarn test --coverage",
     "up-test-environment": "docker-compose -f docker-compose.test.yml up -d",
-    "test-environment-exec": "docker-compose -f docker-compose.test.yml exec",
+    "test-environment-exec": "docker exec --tty $(docker-compose -f docker-compose.test.yml  ps -q api) ",
     "test:on-container": "yarn up-test-environment && yarn test-environment-exec",
     "test:coveralls": "yarn test:ci && coveralls < coverage/lcov.info",
     "update-packages": "yarn npm-check-updates",
