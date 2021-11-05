@@ -24,7 +24,6 @@
     "up-test-environment": "docker-compose -f docker-compose.test.yml up -d",
     "test-environment-exec": "docker exec --tty $(docker-compose -f docker-compose.test.yml  ps -q api) ",
     "test:on-container": "yarn up-test-environment && yarn test-environment-exec",
-    "test:coveralls": "yarn test:ci && coveralls < coverage/lcov.info",
     "update-packages": "yarn npm-check-updates",
     "init_loop_test_container":  "./scripts/in_loop_container.sh"
   },
@@ -38,7 +37,6 @@
     "@types/swagger-ui-express": "^4.1.3",
     "@types/validator": "^13.6.5",
     "@typescript-eslint/eslint-plugin": "^5.2.0",
-    "coveralls": "^3.1.1",
     "dotenv-cli": "^4.0.0",
     "eslint": "^8.1.0",
     "eslint-config-standard-with-typescript": "^21.0.1",
