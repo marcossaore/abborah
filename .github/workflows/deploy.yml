@@ -21,8 +21,8 @@ jobs:
       - name: Install Dependencies
         run: yarn
 
-      # - name: Running tests
-      #   run: yarn test:on-github-actions
+      - name: Running tests
+        run: yarn test:on-container api yarn test:coveralls
 
       - name: running build
         uses: akhileshns/heroku-deploy@v3.12.12
