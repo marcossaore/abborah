@@ -7,7 +7,7 @@ if [ "$HAS_DOCKER_COMPOSE" == "YES" ]; then
     docker-compose -f docker-compose.test.yml up -d db_integration
     yarn prisma generate 
   fi 
-
+fi
 
   while true; do 
     yarn prisma migrate dev
@@ -17,4 +17,3 @@ if [ "$HAS_DOCKER_COMPOSE" == "YES" ]; then
     echo "Waiting for db to be ready..."
     sleep 20
   done
-fi
