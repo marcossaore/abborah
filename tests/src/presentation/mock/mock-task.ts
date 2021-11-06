@@ -1,6 +1,4 @@
-import { TaskModel } from '@/domain/models/task/task'
 import { AddTask, AddTaskParams } from '@/domain/usecases/project/add-task'
-import { mockTaskModel } from '../../domains/mock'
 import faker from 'faker'
 import { ProjectModel } from '@/domain/models/project/project'
 import { mockProjectModel } from '../../data/mock'
@@ -11,12 +9,23 @@ export const mockTaskRequest = (): any => {
   const cloneToday = new Date(today.getTime())
   const todayPlus5Hours = new Date(cloneToday.setHours(cloneToday.getHours() + 5))
   return {
-    idProject: 1,
-    name: faker.random.word(),
-    startDate: today.toString(),
-    description: faker.random.word(),
-    endDate: todayPlus5Hours.toString(),
-    finished: false
+    projectId: 1,
+    tasks: [
+      {
+        name: faker.random.word(),
+        startDate: today.toString(),
+        description: faker.random.word(),
+        endDate: todayPlus5Hours.toString(),
+        finished: false
+      },
+      {
+        name: faker.random.word(),
+        startDate: today.toString(),
+        description: faker.random.word(),
+        endDate: todayPlus5Hours.toString(),
+        finished: false
+      }
+    ]
   }
 }
 
@@ -32,11 +41,7 @@ export class LoadProjectByIdSpy implements LoadProjectById {
 
 export class AddTaskFromProjectSpy implements AddTask {
   tasks: AddTaskParams[] = new Array<AddTaskParams>()
-  tasksModel: TaskModel[] = new Array<TaskModel>()
-  async add (task: AddTaskParams): Promise<TaskModel> {
+  async add (task: AddTaskParams): Promise<void> {
     this.tasks.push(task)
-    const taskModel = mockTaskModel()
-    this.tasksModel.push(taskModel)
-    return Promise.resolve(taskModel)
   }
 }

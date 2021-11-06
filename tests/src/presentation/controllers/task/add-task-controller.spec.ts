@@ -1,25 +1,28 @@
 import { AddTaskController } from '@/presentation/controllers/task/add-task-controller'
 import { ProjectNotFound } from '@/presentation/errors'
 import { badRequest, serverError, notFound } from '@/presentation/http-helpers/http-helper'
-import { ValidationSpy, ValidationRuleSpy, mockTaskRequest, LoadProjectByIdSpy } from '../../mock'
+import { ValidationSpy, ValidationRuleSpy, mockTaskRequest, LoadProjectByIdSpy, AddTaskFromProjectSpy } from '../../mock'
 
 type SutTypes = {
   sut: AddTaskController
   validationSpy: ValidationSpy
   validationRuleSpy: ValidationRuleSpy
   loadProjectByIdSpy: LoadProjectByIdSpy
+  addTaskFromProjectSpy: AddTaskFromProjectSpy
 }
 
 const makeSut = (): SutTypes => {
   const validationSpy = new ValidationSpy()
   const validationRuleSpy = new ValidationRuleSpy()
   const loadProjectByIdSpy = new LoadProjectByIdSpy()
-  const sut = new AddTaskController(validationSpy, validationRuleSpy, loadProjectByIdSpy)
+  const addTaskFromProjectSpy = new AddTaskFromProjectSpy()
+  const sut = new AddTaskController(validationSpy, validationRuleSpy, loadProjectByIdSpy, addTaskFromProjectSpy)
   return {
     sut,
     validationSpy,
     validationRuleSpy,
-    loadProjectByIdSpy
+    loadProjectByIdSpy,
+    addTaskFromProjectSpy
   }
 }
 
@@ -78,15 +81,15 @@ describe('AddTaskController Controller', () => {
     const { sut, loadProjectByIdSpy } = makeSut()
     const request = mockTaskRequest()
     await sut.handle(request)
-    expect(loadProjectByIdSpy.id).toEqual(request.idProject)
+    expect(loadProjectByIdSpy.id).toEqual(request.projectId)
   })
 
-  test('should return a forbidden if LoadProjectById returns null', async () => {
+  test('should return a notFound if LoadProjectById returns null', async () => {
     const { sut, loadProjectByIdSpy } = makeSut()
     jest.spyOn(loadProjectByIdSpy, 'load').mockReturnValueOnce(Promise.resolve(null))
     const request = mockTaskRequest()
     const httpResponse = await sut.handle(request)
-    expect(httpResponse).toEqual(notFound(new ProjectNotFound(Number(request.idProject))))
+    expect(httpResponse).toEqual(notFound(new ProjectNotFound(Number(request.projectId))))
   })
 
   test('should return a server error if LoadProjectById throws', async () => {
@@ -98,5 +101,18 @@ describe('AddTaskController Controller', () => {
     })
     const httpResponse = await sut.handle(mockTaskRequest())
     expect(httpResponse).toEqual(serverError(new Error()))
+  })
+
+  test('should call AddTaskFromProjectSpy with correct values', async () => {
+    const { sut, addTaskFromProjectSpy } = makeSut()
+    const request = mockTaskRequest()
+    await sut.handle(request)
+    const tasks = request.tasks
+    tasks.forEach(task => {
+      task.projectId = request.projectId
+      task.startDate = new Date(task.startDate || new Date())
+      task.endDate = new Date(task.endDate || new Date())
+    })
+    expect(addTaskFromProjectSpy.tasks).toEqual(tasks)
   })
 })
