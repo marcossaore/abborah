@@ -1,7 +1,10 @@
 import { TaskModel } from '@/domain/models/task/task'
 import { AddTask, AddTaskParams } from '@/domain/usecases/project/add-task'
-import { mockTaskModel } from '../../../domains/mock'
+import { mockTaskModel } from '../../domains/mock'
 import faker from 'faker'
+import { ProjectModel } from '@/domain/models/project/project'
+import { mockProjectModel } from '../../data/mock'
+import { LoadProjectById } from '@/domain/usecases/project/load-project-by-id'
 
 export const mockTaskRequest = (): any => {
   const today = new Date()
@@ -14,6 +17,16 @@ export const mockTaskRequest = (): any => {
     description: faker.random.word(),
     endDate: todayPlus5Hours.toString(),
     finished: false
+  }
+}
+
+export class LoadProjectByIdSpy implements LoadProjectById {
+  id: number
+  projectModel: ProjectModel
+  async load (id: number): Promise<ProjectModel> {
+    this.id = id
+    this.projectModel = mockProjectModel()
+    return Promise.resolve(this.projectModel)
   }
 }
 
