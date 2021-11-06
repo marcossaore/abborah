@@ -1,5 +1,5 @@
 import prisma from '@/infra/prisma-adapter/client'
-import { AddProjectRepository } from '@/data/protocols/project/db-add-project-repository'
+import { AddProjectRepository } from '@/data/protocols/project/add-project-repository'
 import { ProjectModel } from '@/domain/models/project/project'
 import { AddProjectParams } from '@/domain/usecases/project/add-project'
 
