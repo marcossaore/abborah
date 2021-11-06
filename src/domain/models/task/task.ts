@@ -7,5 +7,3 @@ export type TaskModel = {
   endDate: Date
   finished?: boolean
 }
-
-export type TasksModel = TaskModel[]
