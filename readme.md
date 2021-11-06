@@ -15,10 +15,12 @@ O nome é Abborah(Ábora) porque pensei em uma abóbora na hora das definições
 ### Documentação Gherkin
 
 1. [Criar Projeto](./requirements/add-project.feature)
+2. [Criar Tarefa](./requirements/add-task.feature)
 
 ### Documentação Técnica
 
 1. [Criar Projeto](./requirements/add-project.readme)
+2. [Criar Tarefa](./requirements/add-task.readme)
 
 
 ### Diagrama 
