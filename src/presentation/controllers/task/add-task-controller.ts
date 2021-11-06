@@ -1,7 +1,7 @@
 import { Controller, HttpResponse, Validation, ValidationRule } from './add-task-protocols'
 import { badRequest, notFound, serverError } from '@/presentation/http-helpers/http-helper'
 import { LoadProjectById } from '@/domain/usecases/project/load-project-by-id'
-import { ProjectNotFound } from '@/presentation/errors'
+import { MissingParamError, ProjectNotFound } from '@/presentation/errors'
 import { AddTask } from '@/domain/usecases/tasks/add-task'
 import { LoadTasksByIdProject } from '@/domain/usecases/tasks/load-task-by-project-id'
 
@@ -29,7 +29,13 @@ export class AddTaskController implements Controller {
         return notFound(new ProjectNotFound(Number(projectId)))
       }
 
-      for (const { name, description, startDate, endDate, finished } of tasks) {
+      for (const [index, values] of tasks.entries()) {
+        const { name, description, startDate, endDate, finished } = values
+
+        if (!name) {
+          return badRequest(new MissingParamError(`tasks[${index}].name`))
+        }
+
         await this.addTask.add({
           name,
           description,
