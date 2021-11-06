@@ -29,21 +29,10 @@ export class AddTaskController implements Controller {
         return notFound(new ProjectNotFound(Number(projectId)))
       }
 
-      for (const [index, values] of tasks.entries()) {
-        const { name, description, startDate, endDate, finished } = values
+      const errorHandleTasks = await this.handleTasks(projectId, tasks)
 
-        if (!name) {
-          return badRequest(new MissingParamError(`tasks[${index}].name`))
-        }
-
-        await this.addTask.add({
-          name,
-          description,
-          projectId: Number(projectId),
-          startDate: startDate ? new Date(startDate) : new Date(),
-          endDate: new Date(endDate),
-          finished
-        })
+      if (errorHandleTasks) {
+        return badRequest(errorHandleTasks)
       }
 
       await this.loadTasksByIdProject.load(Number(projectId))
@@ -51,10 +40,29 @@ export class AddTaskController implements Controller {
       return serverError(error)
     }
   }
+
+  private async handleTasks (projectId: string, tasks: AddTaskController.Task[]): Promise<Error> {
+    for (const [index, values] of tasks.entries()) {
+      const { name, description, startDate, endDate, finished } = values
+
+      if (!name) {
+        return new MissingParamError(`tasks[${index}].name`)
+      }
+
+      await this.addTask.add({
+        name,
+        description,
+        projectId: Number(projectId),
+        startDate: startDate ? new Date(startDate) : new Date(),
+        endDate: new Date(endDate),
+        finished
+      })
+    }
+  }
 }
 
 export namespace AddTaskController {
-  type Task = {
+  export type Task = {
     name: string
     description?: string
     startDate: Date
