@@ -1,5 +1,5 @@
 import { AddTaskController } from '@/presentation/controllers/task/add-task-controller'
-import { ProjectNotFound } from '@/presentation/errors'
+import { MissingParamError, ProjectNotFound } from '@/presentation/errors'
 import { badRequest, serverError, notFound } from '@/presentation/http-helpers/http-helper'
 import { ValidationSpy, ValidationRuleSpy, mockTaskRequest, LoadProjectByIdSpy, AddTaskFromProjectSpy, LoadTasksByIdProjectSpy } from '../../mock'
 
@@ -128,6 +128,14 @@ describe('AddTaskController Controller', () => {
     })
     const httpResponse = await sut.handle(mockTaskRequest())
     expect(httpResponse).toEqual(serverError(new Error()))
+  })
+
+  test('should return a bad request if name in task is not provided', async () => {
+    const { sut } = makeSut()
+    const request = mockTaskRequest()
+    request.tasks[0].name = undefined
+    const httpResponse = await sut.handle(request)
+    expect(httpResponse).toEqual(badRequest(new MissingParamError('tasks[0].name')))
   })
 
   test('should call LoadTasksByProjectId', async () => {
