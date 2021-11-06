@@ -115,4 +115,15 @@ describe('AddTaskController Controller', () => {
     })
     expect(addTaskFromProjectSpy.tasks).toEqual(tasks)
   })
+
+  test('should return a server error if AddTaskFromProjectSpy throws', async () => {
+    const { sut, addTaskFromProjectSpy } = makeSut()
+    const error = new Error()
+    error.stack = 'any_error'
+    jest.spyOn(addTaskFromProjectSpy, 'add').mockImplementationOnce(() => {
+      throw error
+    })
+    const httpResponse = await sut.handle(mockTaskRequest())
+    expect(httpResponse).toEqual(serverError(new Error()))
+  })
 })
