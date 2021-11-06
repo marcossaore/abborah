@@ -1,6 +1,6 @@
 Feature: Addproject
   Como um cliente da api do abborah
-  Quero poder adicionar um novo projeto através da rota /projects
+  Quero poder adicionar um novo projeto através da rota /projects (POST)
 
 Cenário: Adicionar um novo projeto
   Dado que o cliente informe o nome do projeto, a data de início e a data de término

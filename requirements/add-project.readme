@@ -4,8 +4,9 @@
 
 1. ✅  Recebe uma requisição do tipo **POST** na rota **/api/projects**
 2. ✅  Valida se os dados informados são válidos
-3. ✅  Cria um novo projeto
-4. ✅  Retorna **200**
+3. ✅  Valida se a data de início e término estão de acordo com a regra de negócio definida
+4. ✅  Cria um novo projeto
+5. ✅  Retorna **200**
 
 > ## Exceções
 
