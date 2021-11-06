@@ -51,8 +51,10 @@ export class AddTaskFromProjectSpy implements AddTask {
 
 export class LoadTasksByIdProjectSpy implements LoadTasksByIdProject {
   projectId: number
+  tasksModel: TaskModel[]
   async load (projectId: number): Promise<TaskModel[]> {
     this.projectId = projectId
-    return Promise.resolve([mockTaskModel(), mockTaskModel()])
+    this.tasksModel = [mockTaskModel(), mockTaskModel()]
+    return Promise.resolve(this.tasksModel)
   }
 }

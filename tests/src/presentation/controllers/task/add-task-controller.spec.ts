@@ -155,4 +155,12 @@ describe('AddTaskController Controller', () => {
     const httpResponse = await sut.handle(mockTaskRequest())
     expect(httpResponse).toEqual(serverError(new Error()))
   })
+
+  test('should returns 200 on success', async () => {
+    const { sut, loadTasksByIdProjectSpy } = makeSut()
+    const request = mockTaskRequest()
+    const httpResponse = await sut.handle(request)
+    expect(httpResponse.statusCode).toEqual(200)
+    expect(httpResponse.body.tasks).toEqual(loadTasksByIdProjectSpy.tasksModel)
+  })
 })
