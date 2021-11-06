@@ -1,5 +1,6 @@
 import { AddTaskController } from '@/presentation/controllers/task/add-task-controller'
-import { badRequest, serverError } from '@/presentation/http-helpers/http-helper'
+import { ProjectNotFound } from '@/presentation/errors'
+import { badRequest, serverError, notFound } from '@/presentation/http-helpers/http-helper'
 import { ValidationSpy, ValidationRuleSpy, mockTaskRequest, LoadProjectByIdSpy } from '../../mock'
 
 type SutTypes = {
@@ -78,5 +79,13 @@ describe('AddTaskController Controller', () => {
     const request = mockTaskRequest()
     await sut.handle(request)
     expect(loadProjectByIdSpy.id).toEqual(request.idProject)
+  })
+
+  test('should return a forbidden if LoadProjectById returns null', async () => {
+    const { sut, loadProjectByIdSpy } = makeSut()
+    jest.spyOn(loadProjectByIdSpy, 'load').mockReturnValueOnce(Promise.resolve(null))
+    const request = mockTaskRequest()
+    const httpResponse = await sut.handle(request)
+    expect(httpResponse).toEqual(notFound(new ProjectNotFound(Number(request.idProject))))
   })
 })
