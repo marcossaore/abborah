@@ -19,5 +19,9 @@ export const AddProjectValidationModel: ValidationModel = {
   endDate: {
     required: true,
     type: 'date'
+  },
+  finished: {
+    required: false,
+    type: 'boolean'
   }
 }
