@@ -10,12 +10,13 @@ fi
 
   yarn prisma migrate status 
 
-  while $! -eq 0; do
+  while : [ "$!" -ne 0 ]; do
     yarn prisma generate  
     yarn prisma migrate dev
     if [[ "$?" -ne 1 ]]; then 
       break
     fi
     echo "Waiting for db to be ready..."
-    sleep 10
+    sleep 20
+    yarn prisma migrate status 
   done

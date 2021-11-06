@@ -14,7 +14,7 @@
     "down": "docker-compose down",
     "enable_db_test": "sh ./scripts/enable_db_test.sh",
     "disable_db_test": "sh ./scripts/disable_db_test.sh",
-    "debug": "sh ./scripts/debug.sh && yarn nodemon -L --watch ./dist --inspect=0.0.0.0:9222 --nolazy ./dist/main/server.js",
+    "debug": "yarn install --prod && yarn prisma generate && yarn prisma migrate deploy && yarn nodemon -L --watch ./dist --inspect=0.0.0.0:9222 --nolazy ./dist/main/server.js",
     "test": "yarn enable_db_test && jest --passWithNoTests --silent --noStackTrace --runInBand --bail",
     "test:verbose": "jest --passWithNoTests --runInBand",
     "test:unit": "yarn test --watchAll -c jest-unit-config.js",
