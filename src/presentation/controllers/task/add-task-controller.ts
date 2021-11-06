@@ -2,12 +2,14 @@ import { Controller, HttpResponse, Validation, ValidationRule } from './add-task
 import { badRequest, notFound, serverError } from '@/presentation/http-helpers/http-helper'
 import { LoadProjectById } from '@/domain/usecases/project/load-project-by-id'
 import { ProjectNotFound } from '@/presentation/errors'
+import { AddTask } from '@/domain/usecases/project/add-task'
 
 export class AddTaskController implements Controller {
   constructor (
     private readonly validation: Validation,
     private readonly validationRule: ValidationRule,
-    private readonly loadProjectById: LoadProjectById
+    private readonly loadProjectById: LoadProjectById,
+    private readonly addTask: AddTask
   ) {}
 
   async handle (request: AddTaskController.Request): Promise<HttpResponse> {
@@ -17,12 +19,23 @@ export class AddTaskController implements Controller {
         return badRequest(error)
       }
 
-      const { idProject } = request
+      const { projectId, tasks } = request
 
-      const project = await this.loadProjectById.load(Number(idProject))
+      const project = await this.loadProjectById.load(Number(projectId))
 
       if (!project) {
-        return notFound(new ProjectNotFound(Number(idProject)))
+        return notFound(new ProjectNotFound(Number(projectId)))
+      }
+
+      for (const { name, description, startDate, endDate, finished } of tasks) {
+        await this.addTask.add({
+          name,
+          description,
+          projectId: Number(projectId),
+          startDate: startDate ? new Date(startDate) : new Date(),
+          endDate: new Date(endDate),
+          finished
+        })
       }
     } catch (error) {
       return serverError(error)
@@ -31,12 +44,16 @@ export class AddTaskController implements Controller {
 }
 
 export namespace AddTaskController {
-  export type Request = {
-    idProject: string
+  type Task = {
     name: string
     description?: string
-    startDate: string
-    endDate: string
+    startDate: Date
+    endDate: Date
     finished?: boolean
+  }
+
+  export type Request = {
+    projectId: string
+    tasks: Task[]
   }
 }
