@@ -88,4 +88,15 @@ describe('AddTaskController Controller', () => {
     const httpResponse = await sut.handle(request)
     expect(httpResponse).toEqual(notFound(new ProjectNotFound(Number(request.idProject))))
   })
+
+  test('should return a server error if LoadProjectById throws', async () => {
+    const { sut, loadProjectByIdSpy } = makeSut()
+    const error = new Error()
+    error.stack = 'any_error'
+    jest.spyOn(loadProjectByIdSpy, 'load').mockImplementationOnce(() => {
+      throw error
+    })
+    const httpResponse = await sut.handle(mockTaskRequest())
+    expect(httpResponse).toEqual(serverError(new Error()))
+  })
 })
