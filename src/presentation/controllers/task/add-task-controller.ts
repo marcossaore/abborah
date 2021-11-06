@@ -1,6 +1,7 @@
 import { Controller, HttpResponse, Validation, ValidationRule } from './add-task-protocols'
-import { badRequest, serverError } from '@/presentation/http-helpers/http-helper'
+import { badRequest, notFound, serverError } from '@/presentation/http-helpers/http-helper'
 import { LoadProjectById } from '@/domain/usecases/project/load-project-by-id'
+import { ProjectNotFound } from '@/presentation/errors'
 
 export class AddTaskController implements Controller {
   constructor (
@@ -18,7 +19,11 @@ export class AddTaskController implements Controller {
 
       const { idProject } = request
 
-      await this.loadProjectById.load(Number(idProject))
+      const project = await this.loadProjectById.load(Number(idProject))
+
+      if (!project) {
+        return notFound(new ProjectNotFound(Number(idProject)))
+      }
     } catch (error) {
       return serverError(error)
     }
