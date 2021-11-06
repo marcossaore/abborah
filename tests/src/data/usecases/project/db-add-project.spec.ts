@@ -1,7 +1,7 @@
 import { DbAddProject } from '@/data/usecases/project/db-add-project'
 import { AddProjectRepositorySpy, mockProject } from '../../mock'
-import MockDate from 'mockdate'
 import { mockThrowError } from '@/tests/src/mock-utils'
+import MockDate from 'mockdate'
 
 type SutTypes = {
   sut: DbAddProject

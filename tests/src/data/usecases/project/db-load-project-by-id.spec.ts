@@ -1,6 +1,6 @@
 import { DbLoadProjectById } from '@/data/usecases/project/db-load-project-by-id'
 import { mockThrowError } from '@/tests/src/mock-utils'
-import { LoadProjectByIdRepositorySpy } from '../../mock/mock-task'
+import { LoadProjectByIdRepositorySpy } from '../../mock'
 
 type SutTypes = {
   sut: DbLoadProjectById
