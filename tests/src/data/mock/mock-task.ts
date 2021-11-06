@@ -3,8 +3,10 @@ import { mockProjectModel } from '.'
 
 export class LoadProjectByIdRepositorySpy implements LoadProjectByIdRepository {
   id: number
+  projectModel: LoadProjectByIdRepository.Result
   async load (id: LoadProjectByIdRepository.Params): Promise<LoadProjectByIdRepository.Result> {
     this.id = id
-    return Promise.resolve(mockProjectModel())
+    this.projectModel = mockProjectModel()
+    return Promise.resolve(this.projectModel)
   }
 }

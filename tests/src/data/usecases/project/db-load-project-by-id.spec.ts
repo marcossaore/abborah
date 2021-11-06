@@ -31,4 +31,10 @@ describe('DbLoadProjectById UseCase', () => {
     const promise = sut.load(mockId)
     await expect(promise).rejects.toThrow()
   })
+
+  test('should return a project when succeds', async () => {
+    const { sut, loadProjectByIdRepositorySpy } = makeSut()
+    const project = await sut.load(mockId)
+    expect(project).toEqual(loadProjectByIdRepositorySpy.projectModel)
+  })
 })
