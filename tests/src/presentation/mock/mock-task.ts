@@ -3,32 +3,17 @@ import faker from 'faker'
 import { ProjectModel } from '@/domain/models/project/project'
 import { mockProjectModel } from '../../data/mock'
 import { LoadProjectById } from '@/domain/usecases/project/load-project-by-id'
-import { LoadTasksByIdProject } from '@/domain/usecases/tasks/load-task-by-project-id'
 import { TaskModel } from '@/domain/models/task/task'
 import { mockTaskModel } from '../../domains/mock'
 
 export const mockTaskRequest = (): any => {
-  const today = new Date()
-  const cloneToday = new Date(today.getTime())
-  const todayPlus5Hours = new Date(cloneToday.setHours(cloneToday.getHours() + 5))
   return {
     projectId: 1,
-    tasks: [
-      {
-        name: faker.random.word(),
-        startDate: today.toString(),
-        description: faker.random.word(),
-        endDate: todayPlus5Hours.toString(),
-        finished: false
-      },
-      {
-        name: faker.random.word(),
-        startDate: today.toString(),
-        description: faker.random.word(),
-        endDate: todayPlus5Hours.toString(),
-        finished: false
-      }
-    ]
+    name: faker.random.word(),
+    startDate: faker.date.past().toString(),
+    description: faker.random.word(),
+    endDate: faker.date.future().toString(),
+    finished: false
   }
 }
 
@@ -43,18 +28,11 @@ export class LoadProjectByIdSpy implements LoadProjectById {
 }
 
 export class AddTaskFromProjectSpy implements AddTask {
-  tasks: AddTaskParams[] = new Array<AddTaskParams>()
-  async add (task: AddTaskParams): Promise<void> {
-    this.tasks.push(task)
-  }
-}
-
-export class LoadTasksByIdProjectSpy implements LoadTasksByIdProject {
-  projectId: number
-  tasksModel: TaskModel[]
-  async load (projectId: number): Promise<TaskModel[]> {
-    this.projectId = projectId
-    this.tasksModel = [mockTaskModel(), mockTaskModel()]
-    return Promise.resolve(this.tasksModel)
+  task: AddTaskParams
+  taskModel: TaskModel
+  async add (task: AddTaskParams): Promise<TaskModel> {
+    this.task = task
+    this.taskModel = mockTaskModel()
+    return Promise.resolve(this.taskModel)
   }
 }

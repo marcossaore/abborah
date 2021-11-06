@@ -1,7 +1,7 @@
 import { AddTaskController } from '@/presentation/controllers/task/add-task-controller'
-import { MissingParamError, ProjectNotFound } from '@/presentation/errors'
+import { ProjectNotFound } from '@/presentation/errors'
 import { badRequest, serverError, notFound } from '@/presentation/http-helpers/http-helper'
-import { ValidationSpy, ValidationRuleSpy, mockTaskRequest, LoadProjectByIdSpy, AddTaskFromProjectSpy, LoadTasksByIdProjectSpy } from '../../mock'
+import { ValidationSpy, ValidationRuleSpy, mockTaskRequest, LoadProjectByIdSpy, AddTaskFromProjectSpy } from '../../mock'
 
 type SutTypes = {
   sut: AddTaskController
@@ -9,7 +9,6 @@ type SutTypes = {
   validationRuleSpy: ValidationRuleSpy
   loadProjectByIdSpy: LoadProjectByIdSpy
   addTaskFromProjectSpy: AddTaskFromProjectSpy
-  loadTasksByIdProjectSpy: LoadTasksByIdProjectSpy
 }
 
 const makeSut = (): SutTypes => {
@@ -17,15 +16,13 @@ const makeSut = (): SutTypes => {
   const validationRuleSpy = new ValidationRuleSpy()
   const loadProjectByIdSpy = new LoadProjectByIdSpy()
   const addTaskFromProjectSpy = new AddTaskFromProjectSpy()
-  const loadTasksByIdProjectSpy = new LoadTasksByIdProjectSpy()
-  const sut = new AddTaskController(validationSpy, validationRuleSpy, loadProjectByIdSpy, addTaskFromProjectSpy, loadTasksByIdProjectSpy)
+  const sut = new AddTaskController(validationSpy, validationRuleSpy, loadProjectByIdSpy, addTaskFromProjectSpy)
   return {
     sut,
     validationSpy,
     validationRuleSpy,
     loadProjectByIdSpy,
-    addTaskFromProjectSpy,
-    loadTasksByIdProjectSpy
+    addTaskFromProjectSpy
   }
 }
 
@@ -106,17 +103,13 @@ describe('AddTaskController Controller', () => {
     expect(httpResponse).toEqual(serverError(new Error()))
   })
 
-  test('should call AddTaskFromProjectSpy with correct values', async () => {
+  test('should call AddTaskFromProjectSpy with correct value', async () => {
     const { sut, addTaskFromProjectSpy } = makeSut()
     const request = mockTaskRequest()
     await sut.handle(request)
-    const tasks = request.tasks
-    tasks.forEach(task => {
-      task.projectId = request.projectId
-      task.startDate = new Date(task.startDate || new Date())
-      task.endDate = new Date(task.endDate || new Date())
-    })
-    expect(addTaskFromProjectSpy.tasks).toEqual(tasks)
+    request.startDate = new Date(request.startDate)
+    request.endDate = new Date(request.endDate)
+    expect(addTaskFromProjectSpy.task).toEqual(request)
   })
 
   test('should return a server error if AddTaskFromProjectSpy throws', async () => {
@@ -130,37 +123,11 @@ describe('AddTaskController Controller', () => {
     expect(httpResponse).toEqual(serverError(new Error()))
   })
 
-  test('should return a bad request if name in task is not provided', async () => {
-    const { sut } = makeSut()
-    const request = mockTaskRequest()
-    request.tasks[0].name = undefined
-    const httpResponse = await sut.handle(request)
-    expect(httpResponse).toEqual(badRequest(new MissingParamError('tasks[0].name')))
-  })
-
-  test('should call LoadTasksByProjectId', async () => {
-    const { sut, loadTasksByIdProjectSpy } = makeSut()
-    const request = mockTaskRequest()
-    await sut.handle(request)
-    expect(loadTasksByIdProjectSpy.projectId).toEqual(request.projectId)
-  })
-
-  test('should return a server error if LoadTasksByProjectId throws', async () => {
-    const { sut, loadProjectByIdSpy } = makeSut()
-    const error = new Error()
-    error.stack = 'any_error'
-    jest.spyOn(loadProjectByIdSpy, 'load').mockImplementationOnce(() => {
-      throw error
-    })
-    const httpResponse = await sut.handle(mockTaskRequest())
-    expect(httpResponse).toEqual(serverError(new Error()))
-  })
-
   test('should returns 200 on success', async () => {
-    const { sut, loadTasksByIdProjectSpy } = makeSut()
+    const { sut, addTaskFromProjectSpy } = makeSut()
     const request = mockTaskRequest()
     const httpResponse = await sut.handle(request)
     expect(httpResponse.statusCode).toEqual(200)
-    expect(httpResponse.body.tasks).toEqual(loadTasksByIdProjectSpy.tasksModel)
+    expect(httpResponse.body).toEqual(addTaskFromProjectSpy.taskModel)
   })
 })
