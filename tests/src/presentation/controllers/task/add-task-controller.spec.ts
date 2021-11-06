@@ -1,7 +1,7 @@
 import { AddTaskController } from '@/presentation/controllers/task/add-task-controller'
 import { ProjectNotFound } from '@/presentation/errors'
 import { badRequest, serverError, notFound } from '@/presentation/http-helpers/http-helper'
-import { ValidationSpy, ValidationRuleSpy, mockTaskRequest, LoadProjectByIdSpy, AddTaskFromProjectSpy } from '../../mock'
+import { ValidationSpy, ValidationRuleSpy, mockTaskRequest, LoadProjectByIdSpy, AddTaskFromProjectSpy, LoadTasksByIdProjectSpy } from '../../mock'
 
 type SutTypes = {
   sut: AddTaskController
@@ -9,6 +9,7 @@ type SutTypes = {
   validationRuleSpy: ValidationRuleSpy
   loadProjectByIdSpy: LoadProjectByIdSpy
   addTaskFromProjectSpy: AddTaskFromProjectSpy
+  loadTasksByIdProjectSpy: LoadTasksByIdProjectSpy
 }
 
 const makeSut = (): SutTypes => {
@@ -16,13 +17,15 @@ const makeSut = (): SutTypes => {
   const validationRuleSpy = new ValidationRuleSpy()
   const loadProjectByIdSpy = new LoadProjectByIdSpy()
   const addTaskFromProjectSpy = new AddTaskFromProjectSpy()
-  const sut = new AddTaskController(validationSpy, validationRuleSpy, loadProjectByIdSpy, addTaskFromProjectSpy)
+  const loadTasksByIdProjectSpy = new LoadTasksByIdProjectSpy()
+  const sut = new AddTaskController(validationSpy, validationRuleSpy, loadProjectByIdSpy, addTaskFromProjectSpy, loadTasksByIdProjectSpy)
   return {
     sut,
     validationSpy,
     validationRuleSpy,
     loadProjectByIdSpy,
-    addTaskFromProjectSpy
+    addTaskFromProjectSpy,
+    loadTasksByIdProjectSpy
   }
 }
 
@@ -125,5 +128,12 @@ describe('AddTaskController Controller', () => {
     })
     const httpResponse = await sut.handle(mockTaskRequest())
     expect(httpResponse).toEqual(serverError(new Error()))
+  })
+
+  test('should call LoadTasksByProjectId', async () => {
+    const { sut, loadTasksByIdProjectSpy } = makeSut()
+    const request = mockTaskRequest()
+    await sut.handle(request)
+    expect(loadTasksByIdProjectSpy.projectId).toEqual(request.projectId)
   })
 })
