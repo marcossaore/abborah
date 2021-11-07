@@ -2,6 +2,7 @@ import { AddTaskController } from '@/presentation/controllers/task/add-task-cont
 import { ProjectNotFound } from '@/presentation/errors'
 import { badRequest, serverError, notFound } from '@/presentation/http-helpers/http-helper'
 import { ValidationSpy, ValidationRuleSpy, mockTaskRequest, LoadProjectByIdSpy, AddTaskFromProjectSpy } from '../../mock'
+import MockDate from 'mockdate'
 
 type SutTypes = {
   sut: AddTaskController
@@ -110,6 +111,17 @@ describe('AddTaskController Controller', () => {
     request.startDate = new Date(request.startDate)
     request.endDate = new Date(request.endDate)
     expect(addTaskFromProjectSpy.task).toEqual(request)
+  })
+
+  test('should call AddTaskFromProjectSpy with a new date if startDate is not provided', async () => {
+    MockDate.set(new Date())
+    const { sut, addTaskFromProjectSpy } = makeSut()
+    const request = mockTaskRequest()
+    request.startDate = undefined
+    const httpResponse = await sut.handle(request)
+    expect(httpResponse.statusCode).toEqual(200)
+    expect(new Date()).toEqual(addTaskFromProjectSpy.task.startDate)
+    MockDate.reset()
   })
 
   test('should return a server error if AddTaskFromProjectSpy throws', async () => {
