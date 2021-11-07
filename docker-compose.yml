@@ -26,8 +26,8 @@ services:
       - ./package.json:/usr/src/abborah/package.json
       - ./yarn.lock:/usr/src/abborah/yarn.lock
     ports:
-      - "5050:5050"
-      - "9222:9222"
+      - 5050:5050
+      - 9222:9222
     networks:
       - local
     depends_on:

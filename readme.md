@@ -48,7 +48,7 @@ O nome é Abborah(Ábora) porque pensei em uma abóbora na hora das definições
 
 1. Crie dentro pasta `prisma` um arquivo `.env` com as credenciais do banco de dados do docker-compose.
 
-        DB_CONNECTION=mysql://root:abb0r0h@127.0.0.1:3306/abborah_test
+        DB_CONNECTION=mysql://root:abb0r0h@127.0.0.1:3307/abborah_test
 
 2. Rode o comando `yarn up` para rodar localmente o projeto.
 
