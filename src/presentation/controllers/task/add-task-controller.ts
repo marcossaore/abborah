@@ -20,10 +20,10 @@ export class AddTaskController implements Controller {
 
       const { projectId, name, description, startDate, endDate, finished } = request
 
-      const project = await this.loadProjectById.load(Number(projectId))
+      const project = await this.loadProjectById.load(projectId)
 
       if (!project) {
-        return notFound(new ProjectNotFound(Number(projectId)))
+        return notFound(new ProjectNotFound(projectId))
       }
 
       const taskModel = await this.addTask.add({
@@ -44,10 +44,10 @@ export class AddTaskController implements Controller {
 
 export namespace AddTaskController {
   export type Request = {
-    projectId: string
+    projectId: number
     name: string
     description?: string
-    startDate: Date
+    startDate?: Date
     endDate: Date
     finished?: boolean
   }
