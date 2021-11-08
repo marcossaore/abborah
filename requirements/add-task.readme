@@ -2,14 +2,14 @@
 
 > ## Caso de sucesso
 
-1. ❌  Recebe uma requisição do tipo **POST** na rota **/api/tasks**
+1. ✅  Recebe uma requisição do tipo **POST** na rota **/api/tasks**
 2. ✅  Valida se os dados informados são válidos
 3. ✅  Valida se a data de início e término estão de acordo com a regra de negócio definida
-4. ❌  Cria uma nova tarefa
-5. ❌  Retorna **200**
+4. ✅  Cria uma nova tarefa
+5. ✅  Retorna **200**
 
 > ## Exceções
 
-1. ❌  Retorna erro **404** se a API não existir
-2. ❌  Retorna erro **400** se os campos obrigatórios estiverem vazios
-3. ❌  Retorna erro **500** se der erro ao criar tarefa
+1. ✅   Retorna erro **404** se a API não existir
+2. ✅   Retorna erro **400** se os campos obrigatórios estiverem vazios
+3. ✅   Retorna erro **500** se der erro ao criar tarefa
