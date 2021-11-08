@@ -8,7 +8,7 @@ export class DbLoadProjectById implements LoadProjectById {
   ) {}
 
   public async load (id: number): Promise<ProjectModel> {
-    const project = await this.loadProjectByIdRepository.load(id)
+    const project = await this.loadProjectByIdRepository.loadById(id)
     return project
   }
 }
