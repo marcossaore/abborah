@@ -1,4 +1,5 @@
 import { DbAddTask } from '@/data/usecases/task/db-add-task'
+import { mockThrowError } from '@/tests/src/mock-utils'
 import { AddTaskRepositorySpy, mockTask } from '../../mock'
 
 type SutTypes = {
@@ -16,10 +17,18 @@ const makeSut = (): SutTypes => {
 }
 
 describe('DbAddTask UseCase', () => {
-  test('should call AddTaskRepositorySpy with correct values', async () => {
+  test('should call AddTaskRepository with correct values', async () => {
     const { sut, addTaskRepositorySpy } = makeSut()
     const mock = mockTask()
     await sut.add(mock)
     expect(addTaskRepositorySpy.addTaskParams).toEqual(mock)
+  })
+
+  test('should throws if AddTaskRepository throws', async () => {
+    const { sut, addTaskRepositorySpy } = makeSut()
+    jest.spyOn(addTaskRepositorySpy, 'add').mockImplementationOnce(mockThrowError)
+    const mock = mockTask()
+    const promise = sut.add(mock)
+    await expect(promise).rejects.toThrow()
   })
 })
