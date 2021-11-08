@@ -1,4 +1,3 @@
-[![Build Status](https://github.com/marcossaore/abborah.svg?branch=master)](https://github.com/marcossaore/abborah)
 [![Coverage Status](https://coveralls.io/repos/github/marcossaore/abborah/badge.svg)](https://coveralls.io/github/marcossaore/abborah)
 
 # **Abborah API**
