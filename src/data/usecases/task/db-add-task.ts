@@ -7,7 +7,7 @@ import { AddTask } from './db-add-task-protocols'
 export class DbAddTask implements AddTask {
   constructor (private readonly addTaskRepository: AddTaskRepository) {}
   public async add (addTaskParams: AddTaskParams): Promise<TaskModel> {
-    await this.addTaskRepository.add(addTaskParams)
-    return Promise.resolve(null)
+    const task = await this.addTaskRepository.add(addTaskParams)
+    return Promise.resolve(task)
   }
 }
