@@ -9,7 +9,7 @@ export abstract class ValidationFactory {
   }
 
   make (): Validation {
-    this.validation = Odin.build(this.model)
+    this.validation = Object.assign({}, Odin.build(this.model))
     return this.validation
   }
 }
