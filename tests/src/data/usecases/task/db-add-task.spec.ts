@@ -31,4 +31,11 @@ describe('DbAddTask UseCase', () => {
     const promise = sut.add(mock)
     await expect(promise).rejects.toThrow()
   })
+
+  test('should return a task when succeds', async () => {
+    const { sut, addTaskRepositorySpy } = makeSut()
+    const mock = mockTask()
+    const taskModel = await sut.add(mock)
+    expect(taskModel).toEqual(addTaskRepositorySpy.taskModel)
+  })
 })

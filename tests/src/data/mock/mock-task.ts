@@ -21,8 +21,10 @@ export const mockTaskModel = (): TaskModel => ({
 
 export class AddTaskRepositorySpy implements AddTaskRepository {
   addTaskParams: AddTaskParams
+  taskModel: TaskModel
   async add (addTaskParams: AddTaskParams): Promise<TaskModel> {
     this.addTaskParams = addTaskParams
-    return Promise.resolve(mockTaskModel())
+    this.taskModel = mockTaskModel()
+    return Promise.resolve(this.taskModel)
   }
 }
