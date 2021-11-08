@@ -12,6 +12,16 @@ Cenário: Adicionar uma nova tarefa sem data de início
   Quando solicitar a criação do tarefa
   Então a api deve retornar status 200 e um json com os dados da tarefa criada e a data de início igual a data atual
 
+  Cenário: Adicionar uma nova tarefa com data de início maior que 1 mês
+  Dado que o cliente informe o nome da tarefa, a data de início(+ 1mês) e a data de término
+  Quando solicitar a criação do tarefa
+  Então a api deve retornar status 400 e uma mensagem informando que a data de início não pode ser maior que 1 mês
+
+Cenário: Adicionar uma nova tarefa com data de início maior que a data de término
+  Dado que o cliente informe o nome da tarefa, a data de início (maior que a data de término) e a data de término
+  Quando solicitar a criação do tarefa
+  Então a api deve retornar status 400 e uma mensagem informando que a data de término não pode ser menor que a data de início
+
 Cenário: Adicionar uma nova tarefa com status finalizado
   Dado que o cliente informe o nome do tarefa, a data de início(opcional) e a data de término e o status de finalizado
   Quando solicitar a criação do tarefa

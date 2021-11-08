@@ -8,9 +8,19 @@ Cenário: Adicionar um novo projeto
   Então a api deve retornar status 200 e um json com os dados do projeto criado
 
 Cenário: Adicionar um novo projeto sem data de início
-  Dado que o cliente informe o nome do projeto e somenete a data de término
+  Dado que o cliente informe o nome do projeto e somente a data de término
   Quando solicitar a criação do projeto
   Então a api deve retornar status 200 e um json com os dados do projeto criado e a data de início igual a data atual
+
+Cenário: Adicionar um novo projeto com data de início maior que 1 mês
+  Dado que o cliente informe o nome do projeto, a data de início(+ 1mês) e a data de término
+  Quando solicitar a criação do projeto
+  Então a api deve retornar status 400 e uma mensagem informando que a data de início não pode ser maior que 1 mês
+
+Cenário: Adicionar um novo projeto com data de início maior que a data de término
+  Dado que o cliente informe o nome do projeto, a data de início (maior que a data de término) e a data de término
+  Quando solicitar a criação do projeto
+  Então a api deve retornar status 400 e uma mensagem informando que a data de término não pode ser menor que a data de início
 
 Cenário: Adicionar um novo projeto com status finalizado
   Dado que o cliente informe o nome do projeto, a data de início(opcional) e a data de término e o status de finalizado
