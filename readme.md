@@ -5,7 +5,7 @@
 
 ---
 Essa API auxilia na criação e manutenção de projetos e tarefas vinculadas, é possível criar um projeto e ficar de olho 👀  
-nos prazos estabelecidos e ficsalizar se será entregue em tempo hábil.
+nos prazos estabelecidos e fiscalizar se será entregue em tempo hábil.
 
 O nome é Abborah(Ábora) porque pensei em uma abóbora na hora das definições de escopo. 😅
 
@@ -46,23 +46,36 @@ O nome é Abborah(Ábora) porque pensei em uma abóbora na hora das definições
 
 > ## Como rodar o projeto
 
-1. Crie dentro pasta `prisma` um arquivo `.env` com as credenciais do banco de dados do docker-compose.
+1. Crie dentro pasta `prisma` um arquivo `.env` com as credenciais do banco de dados do docker-compose.test.yml (isto é configurado para rodar os testes fora do container, bem mais rápido).
 
         DB_CONNECTION=mysql://root:abb0r0h@127.0.0.1:3307/abborah_test
 
 2. Rode o comando `yarn up` para rodar localmente o projeto.
 
-3. Use o postman ou qualquer cliente de requisições HTTP. (O Thunder client do VS Studio Code é bem bacana)
+3. Se for necessário fazer alguma alteração nos arquivos e isso ser refletido no container, rode o comando `yarn build` ou `yarn build:watch`.
 
-4 . Crie um projeto.
+4. Use o postman ou qualquer cliente de requisições HTTP. (O Thunder client do VS Studio Code é bem bacana)
+
+5 . Crie um projeto e logo em seguida uma tarefa.
 
 ```json
 {
     "name": "personal project",
     "description": "A brief description",
-    "endDate": "2021-11-07 13:34",
-    "startDate": "2021-10-08 18:35:00", 
+    "endDate": "2021-11-08 13:34",
+    "startDate": "2021-11-30 18:35:00", 
     "finished": false
+}
+```
+
+```json
+{
+    "projectId": 50,
+    "name": "personal task",
+    "description": "A brief description of a task",
+    "endDate": "2021-11-15",
+    "startDate": "2021-11-20 12:00",
+    "finished": true
 }
 ```
 
@@ -75,6 +88,11 @@ O nome é Abborah(Ábora) porque pensei em uma abóbora na hora das definições
   ### Teste de integração
 
       yarn test:integration
+
+  ### Testes no container
+
+      yarn test:on-container <test>
+      Exemplo: yarn test:on-container test:ci
 
   ### Todos
 
