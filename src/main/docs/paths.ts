@@ -1,5 +1,7 @@
 import { projectPath } from './paths/index'
+import { taskPath } from './paths/task-path'
 
 export default {
-  '/projects': projectPath
+  '/projects': projectPath,
+  '/tasks': taskPath
 }

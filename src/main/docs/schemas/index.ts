@@ -1,3 +1,3 @@
-export * from './add-project-params-schema'
-export * from './project-schema'
+export * from './project'
+export * from './task'
 export * from './error-schema'
